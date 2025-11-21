@@ -63,6 +63,36 @@ export async function createCanonicalRewrite(
 }
 
 /**
+ * Upsert a canonical URL rewrite (create or update if exists)
+ */
+export async function upsertCanonicalRewrite(
+  requestPath: string,
+  targetType: UrlTargetType,
+  targetId: number,
+  targetPath?: string
+): Promise<UrlRewrite> {
+  return prisma.urlRewrite.upsert({
+    where: { requestPath },
+    update: {
+      targetType,
+      targetId,
+      targetPath: targetPath || requestPath,
+      isCanonical: true,
+      isActive: true,
+      updatedAt: new Date(),
+    },
+    create: {
+      requestPath,
+      targetType,
+      targetId,
+      targetPath: targetPath || requestPath,
+      isCanonical: true,
+      isActive: true,
+    },
+  });
+}
+
+/**
  * Create a redirect rewrite (301/302)
  */
 export async function createRedirectRewrite(
