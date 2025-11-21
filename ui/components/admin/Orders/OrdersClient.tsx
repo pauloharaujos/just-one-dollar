@@ -6,25 +6,10 @@ import Link from 'next/link';
 import { formatCurrency } from '@/lib/utils';
 import Pagination from '@/ui/components/admin/Pagination';
 import SearchBar from '@/ui/components/admin/SearchBar';
-
-interface User {
-  name: string | null;
-  email: string;
-}
-
-interface Order {
-  id: number;
-  orderNumber: string;
-  total: number;
-  subtotal: number;
-  tax: number;
-  status: string;
-  createdAt: Date;
-  user: User;
-}
+import type { OrderListItem } from '@/repository/orderRepository';
 
 interface OrdersResponse {
-  orders: Order[];
+  orders: OrderListItem[];
   total: number;
   page: number;
   limit: number;

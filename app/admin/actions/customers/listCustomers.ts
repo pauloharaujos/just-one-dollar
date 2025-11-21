@@ -2,6 +2,7 @@
 
 import { getSession } from '@/services/admin/auth/jwtService';
 import { listCustomers } from '@/services/admin/customerService';
+import type { CustomerWithCounts } from '@/repository/customerRepository';
 
 /**
  * Server action to list customers with filters and pagination
@@ -14,7 +15,17 @@ export async function listCustomersAction(
     page?: number;
     limit?: number;
   } = {}
-): Promise<{ success: boolean; customers?: any; error?: string }> {
+): Promise<{ 
+  success: boolean;
+  data?: {
+    customers: CustomerWithCounts[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+  error?: string;
+}> {
   try {
     const session = await getSession();
     
@@ -24,12 +35,12 @@ export async function listCustomersAction(
 
     const result = await listCustomers(filters, pagination);
 
-    return { success: true, customers: result };
-  } catch (error: any) {
+    return { success: true, data: result };
+  } catch (error) {
     console.error('Error listing customers:', error);
     return {
       success: false,
-      error: error.message || 'An error occurred while fetching customers',
+      error: 'An error occurred while fetching customers',
     };
   }
 }

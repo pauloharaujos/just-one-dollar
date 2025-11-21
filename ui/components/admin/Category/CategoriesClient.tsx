@@ -3,6 +3,19 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
+interface CategoryChild {
+  id: number;
+  name: string;
+  url: string;
+  description: string | null;
+  parentId: number | null;
+  visible: boolean;
+  createdAt: Date;
+  _count: {
+    productCategories: number;
+  };
+}
+
 interface Category {
   id: number;
   name: string;
@@ -17,7 +30,7 @@ interface Category {
   parent: {
     name: string;
   } | null;
-  children: Category[];
+  children: CategoryChild[];
 }
 
 interface CategoriesClientProps {
@@ -78,8 +91,8 @@ export default function CategoriesClient({ initialCategories, deleteAction }: Ca
   }) => {
     const tree = buildCategoryTree(categories);
 
-    const CategoryNode = ({ category, level = 0 }: { category: Category; level?: number }) => {
-      const hasChildren = category.children && category.children.length > 0;
+    const CategoryNode = ({ category, level = 0 }: { category: Category | CategoryChild; level?: number }) => {
+      const hasChildren = 'children' in category && category.children && category.children.length > 0;
 
       return (
         <div className={`${level > 0 ? 'ml-6 border-l-2 border-gray-200 pl-4' : ''}`}>
@@ -120,7 +133,7 @@ export default function CategoriesClient({ initialCategories, deleteAction }: Ca
               </button>
             </div>
           </div>
-          {hasChildren && (
+          {hasChildren && 'children' in category && (
             <div className="mt-2">
               {category.children!.map((child) => (
                 <CategoryNode key={child.id} category={child} level={level + 1} />

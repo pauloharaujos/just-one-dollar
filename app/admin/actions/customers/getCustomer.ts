@@ -8,7 +8,7 @@ import { getCustomer } from '@/services/admin/customerService';
  */
 export async function getCustomerAction(
   id: string
-): Promise<{ success: boolean; customer?: any; error?: string }> {
+) {
   try {
     const session = await getSession();
     
@@ -23,11 +23,11 @@ export async function getCustomerAction(
     }
 
     return { success: true, customer };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error fetching customer:', error);
     return {
       success: false,
-      error: error.message || 'An error occurred while fetching customer',
+      error: 'An error occurred while fetching customer',
     };
   }
 }

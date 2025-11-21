@@ -1,6 +1,7 @@
 import { getCategoryAction } from '@/app/admin/actions/categories/getCategory';
 import { listCategoriesAction } from '@/app/admin/actions/categories/listCategories';
 import EditCategoryClient from '@/ui/components/admin/Category/EditCategoryClient';
+import { Category } from '@/repository/categoryRepository';
 
 export default async function EditCategoryPage({ params }: { params: { id: string } }) {
   const resolvedParams = await params;
@@ -37,7 +38,7 @@ export default async function EditCategoryPage({ params }: { params: { id: strin
 
   // Filter out current category and its children to prevent circular references
   const availableCategories = (categoriesResult.categories || []).filter(
-    (c: any) => c.id !== categoryId
+    (c: Category) => c.id !== categoryId
   );
 
   return (

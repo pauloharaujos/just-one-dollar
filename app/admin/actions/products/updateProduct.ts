@@ -4,6 +4,7 @@ import { getSession } from '@/services/admin/auth/jwtService';
 import { updateProduct } from '@/services/admin/productService';
 import { revalidatePath } from 'next/cache';
 import type { ProductFormData } from '@/services/admin/productService';
+import type { Product } from '@/prisma/generated';
 
 /**
  * Server action to update a product
@@ -11,7 +12,11 @@ import type { ProductFormData } from '@/services/admin/productService';
 export async function updateProductAction(
   id: number,
   data: Partial<ProductFormData>
-): Promise<{ success: boolean; product?: any; error?: string }> {
+): Promise<{ 
+  success: boolean;
+  product?: Product;
+  error?: string;
+}> {
   try {
     const session = await getSession();
     
@@ -25,11 +30,11 @@ export async function updateProductAction(
     revalidatePath(`/admin/products/${id}/edit`);
 
     return { success: true, product };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error updating product:', error);
     return {
       success: false,
-      error: error.message || 'An error occurred while updating product',
+      error: 'An error occurred while updating product',
     };
   }
 }

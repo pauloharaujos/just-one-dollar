@@ -1,5 +1,25 @@
 import prisma from '@/prisma/prismaClient';
-import type { User } from '@/prisma/generated';
+import type { User, Prisma } from '@/prisma/generated';
+
+export type CustomerWithCounts = Prisma.UserGetPayload<{
+  include: {
+    orders: {
+      select: {
+        id: true;
+        orderNumber: true;
+        total: true;
+        status: true;
+        createdAt: true;
+      };
+    };
+    _count: {
+      select: {
+        orders: true;
+        addresses: true;
+      };
+    };
+  };
+}>;
 
 export async function getCustomerById(customerId: string): Promise<User | null> {
     try {
@@ -57,7 +77,13 @@ export async function getAllCustomers(filters: {
 } = {}, pagination: {
   page?: number;
   limit?: number;
-} = {}) {
+} = {}): Promise<{
+  customers: CustomerWithCounts[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}> {
   const page = pagination.page || 1;
   const limit = pagination.limit || 20;
   const skip = (page - 1) * limit;

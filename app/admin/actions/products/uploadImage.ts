@@ -8,7 +8,12 @@ import { uploadProductImage } from '@/services/admin/imageUploadService';
  */
 export async function uploadProductImageAction(
   formData: FormData
-): Promise<{ success: boolean; url?: string; publicId?: string; error?: string }> {
+): Promise<{ 
+  success: boolean;
+  url?: string;
+  publicId?: string;
+  error?: string;
+}> {
   try {
     const session = await getSession();
     
@@ -30,11 +35,11 @@ export async function uploadProductImageAction(
       url: result.url,
       publicId: result.publicId,
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error uploading image:', error);
     return {
       success: false,
-      error: error.message || 'An error occurred while uploading image',
+      error: 'An error occurred while uploading image',
     };
   }
 }

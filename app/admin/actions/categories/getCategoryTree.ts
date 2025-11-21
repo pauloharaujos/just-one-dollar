@@ -2,11 +2,16 @@
 
 import { getSession } from '@/services/admin/auth/jwtService';
 import { getCategoryTree } from '@/services/admin/categoryService';
+import type { Category } from '@/repository/categoryRepository';
 
 /**
  * Server action to get category tree
  */
-export async function getCategoryTreeAction(): Promise<{ success: boolean; tree?: any[]; error?: string }> {
+export async function getCategoryTreeAction(): Promise<{ 
+  success: boolean;
+  tree?: Category[];
+  error?: string;
+}> {
   try {
     const session = await getSession();
     
@@ -17,11 +22,11 @@ export async function getCategoryTreeAction(): Promise<{ success: boolean; tree?
     const tree = await getCategoryTree();
 
     return { success: true, tree };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error fetching category tree:', error);
     return {
       success: false,
-      error: error.message || 'An error occurred while fetching category tree',
+      error: 'An error occurred while fetching category tree',
     };
   }
 }

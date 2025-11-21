@@ -1,11 +1,11 @@
-import { SignJWT, jwtVerify } from 'jose';
+import { SignJWT, jwtVerify, type JWTPayload as JoseJWTPayload } from 'jose';
 import { cookies } from 'next/headers';
 
 const JWT_SECRET = process.env.ADMIN_JWT_SECRET || 'your-secret-key-change-this-in-production';
 const COOKIE_NAME = 'admin_session';
 const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
-export interface JWTPayload {
+export interface JWTPayload extends JoseJWTPayload {
   id: string;
   email: string;
   name: string;

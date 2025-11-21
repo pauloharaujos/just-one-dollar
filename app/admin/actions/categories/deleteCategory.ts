@@ -22,11 +22,11 @@ export async function deleteCategoryAction(
     revalidatePath('/admin/categories');
 
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error deleting category:', error);
     return {
       success: false,
-      error: error.message || 'An error occurred while deleting category',
+      error: 'An error occurred while deleting category',
     };
   }
 }

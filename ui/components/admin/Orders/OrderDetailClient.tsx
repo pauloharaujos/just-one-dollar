@@ -63,7 +63,7 @@ export default function OrderDetailClient({ order: initialOrder }: OrderDetailCl
       const result = await updateOrderStatusAction(order.id, status);
       
       if (result.success && result.order) {
-        setOrder(result.order);
+        setOrder(prev => ({ ...prev, status: result.order!.status }));
       } else {
         console.error('Error updating status:', result.error);
       }

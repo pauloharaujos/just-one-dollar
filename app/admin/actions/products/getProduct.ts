@@ -1,5 +1,6 @@
 'use server';
 
+import { Product } from '@/prisma/generated/client';
 import { getSession } from '@/services/admin/auth/jwtService';
 import { getProduct } from '@/services/admin/productService';
 
@@ -8,7 +9,11 @@ import { getProduct } from '@/services/admin/productService';
  */
 export async function getProductAction(
   id: number
-): Promise<{ success: boolean; product?: any; error?: string }> {
+): Promise<{ 
+  success: boolean;
+  product?: Product;
+  error?: string;
+}> {
   try {
     const session = await getSession();
     
@@ -23,11 +28,11 @@ export async function getProductAction(
     }
 
     return { success: true, product };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error fetching product:', error);
     return {
       success: false,
-      error: error.message || 'An error occurred while fetching product',
+      error: 'An error occurred while fetching product',
     };
   }
 }

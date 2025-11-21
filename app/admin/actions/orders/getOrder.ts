@@ -2,13 +2,18 @@
 
 import { getSession } from '@/services/admin/auth/jwtService';
 import { getOrder } from '@/services/admin/orderService';
+import type { OrderWithDetails } from '@/repository/orderRepository';
 
 /**
  * Server action to get a single order by ID
  */
 export async function getOrderAction(
   id: number
-): Promise<{ success: boolean; order?: any; error?: string }> {
+): Promise<{ 
+  success: boolean;
+  order?: OrderWithDetails;
+  error?: string;
+}> {
   try {
     const session = await getSession();
     
@@ -23,11 +28,11 @@ export async function getOrderAction(
     }
 
     return { success: true, order };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error fetching order:', error);
     return {
       success: false,
-      error: error.message || 'An error occurred while fetching order',
+      error: 'An error occurred while fetching order',
     };
   }
 }

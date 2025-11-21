@@ -4,6 +4,7 @@ import { getSession } from '@/services/admin/auth/jwtService';
 import { updateOrderStatus } from '@/services/admin/orderService';
 import { revalidatePath } from 'next/cache';
 import type { OrderStatus } from '@/prisma/generated';
+import type { Order } from '@/prisma/generated';
 
 /**
  * Server action to update order status
@@ -11,7 +12,11 @@ import type { OrderStatus } from '@/prisma/generated';
 export async function updateOrderStatusAction(
   id: number,
   status: OrderStatus
-): Promise<{ success: boolean; order?: any; error?: string }> {
+): Promise<{ 
+  success: boolean;
+  order?: Order;
+  error?: string;
+}> {
   try {
     const session = await getSession();
     
@@ -29,11 +34,11 @@ export async function updateOrderStatusAction(
     revalidatePath(`/admin/orders/${id}`);
 
     return { success: true, order };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error updating order status:', error);
     return {
       success: false,
-      error: error.message || 'An error occurred while updating order status',
+      error: 'An error occurred while updating order status',
     };
   }
 }

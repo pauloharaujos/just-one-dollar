@@ -1,5 +1,6 @@
 import { listOrdersAction } from '@/app/admin/actions/orders/listOrders';
 import OrdersClient from '@/ui/components/admin/Orders/OrdersClient';
+import type { OrderStatus } from '@/prisma/generated';
 
 interface SearchParams {
   page?: string;
@@ -20,7 +21,7 @@ export default async function OrdersPage({
   const result = await listOrdersAction(
     {
       search: search || undefined,
-      status: status as any || undefined,
+      status: status as OrderStatus || undefined,
     },
     {
       page,
@@ -28,10 +29,10 @@ export default async function OrdersPage({
     }
   );
 
-  if (!result.success) {
+  if (!result.success || !result.data) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-lg text-red-600">Error: {result.error}</div>
+        <div className="text-lg text-red-600">Error: {result.error || 'No data available'}</div>
       </div>
     );
   }
@@ -42,7 +43,7 @@ export default async function OrdersPage({
         <h1 className="text-3xl font-bold text-gray-900">Orders</h1>
       </div>
 
-      <OrdersClient initialData={result.orders} />
+      <OrdersClient initialData={result.data} />
     </div>
   );
 }

@@ -25,10 +25,10 @@ export default async function CustomersPage({
     }
   );
 
-  if (!result.success) {
+  if (!result.success || !result.data) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-lg text-red-600">Error: {result.error}</div>
+        <div className="text-lg text-red-600">Error: {result.error || 'No data available'}</div>
       </div>
     );
   }
@@ -39,7 +39,7 @@ export default async function CustomersPage({
         <h1 className="text-3xl font-bold text-gray-900">Customers</h1>
       </div>
 
-      <CustomersClient initialData={result.customers} />
+      <CustomersClient initialData={result.data} />
     </div>
   );
 }

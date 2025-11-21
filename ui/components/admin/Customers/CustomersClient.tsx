@@ -5,21 +5,10 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Pagination from '@/ui/components/admin/Pagination';
 import SearchBar from '@/ui/components/admin/SearchBar';
-
-interface Customer {
-  id: string;
-  name: string | null;
-  email: string;
-  phone: string | null;
-  createdAt: Date;
-  _count: {
-    orders: number;
-    addresses: number;
-  };
-}
+import type { CustomerWithCounts } from '@/repository/customerRepository';
 
 interface CustomersResponse {
-  customers: Customer[];
+  customers: CustomerWithCounts[];
   total: number;
   page: number;
   limit: number;

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { formatCurrency } from '@/lib/utils';
 import { getProducts, type ProductsResponse } from '@/app/admin/actions/products/getProducts';
 import { deleteProduct } from '@/app/admin/actions/products/deleteProduct';
+import type { ProductListItem } from '@/repository/productRepository';
 import Pagination from '@/ui/components/admin/Pagination';
 import SearchBar from '@/ui/components/admin/SearchBar';
 import ProductsTableSkeleton from '@/ui/components/admin/Products/ProductsTableSkeleton';
@@ -142,7 +143,7 @@ export default function ProductsPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {product.productCategories
-                        .map((pc) => pc.category.name)
+                        .map((pc: ProductListItem['productCategories'][0]) => pc.category.name)
                         .join(', ') || 'No categories'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">

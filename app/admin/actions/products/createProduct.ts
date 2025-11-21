@@ -41,11 +41,11 @@ export async function createProductAction(
     revalidatePath('/admin/products');
     
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error creating product:', error);
     return {
       success: false,
-      error: error.message || 'An error occurred while creating product',
+      error: 'An error occurred while creating product',
     };
   }
 }
@@ -57,7 +57,10 @@ export async function createProductAction(
 export async function createProductWithImageAction(
   productData: CreateProductData,
   imageFile: File | null
-): Promise<{ success: boolean; error?: string }> {
+): Promise<{ 
+  success: boolean;
+  error?: string;
+}> {
   try {
     const session = await getSession();
     
@@ -85,11 +88,11 @@ export async function createProductWithImageAction(
     revalidatePath('/admin/products');
     
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error creating product with image:', error);
     return {
       success: false,
-      error: error.message || 'An error occurred while creating product',
+      error: 'An error occurred while creating product',
     };
   }
 }

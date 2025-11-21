@@ -47,8 +47,8 @@ export default function EditCategoryClient({ category, categories, categoryId }:
       const result = await updateCategoryAction(categoryId, {
         name: formData.name,
         url: formData.url,
-        description: formData.description || null,
-        parentId: formData.parentId ? parseInt(formData.parentId) : null,
+        description: formData.description || undefined,
+        parentId: formData.parentId ? parseInt(formData.parentId) : undefined,
         visible: formData.visible,
       });
 

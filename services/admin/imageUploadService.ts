@@ -23,7 +23,7 @@ export async function uploadProductImage(
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    const result = await new Promise<any>((resolve, reject) => {
+    const result = await new Promise<{ secure_url: string; public_id: string }>((resolve, reject) => {
       cloudinary.uploader.upload_stream(
         {
           public_id: publicId,
@@ -34,7 +34,8 @@ export async function uploadProductImage(
         },
         (error, result) => {
           if (error) reject(error);
-          else resolve(result);
+          else if (result) resolve(result);
+          else reject(new Error('Upload failed - no result'));
         }
       ).end(buffer);
     });
@@ -45,7 +46,7 @@ export async function uploadProductImage(
     };
   } catch (error) {
     console.error('Error uploading to Cloudinary:', error);
-    //throw new Error('Failed to upload image');
+    throw new Error('Failed to upload image');
   }
 }
 

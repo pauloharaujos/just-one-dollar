@@ -16,6 +16,19 @@ export type OrderWithDetails = Prisma.OrderGetPayload<{
   };
 }>;
 
+export type OrderListItem = Prisma.OrderGetPayload<{
+  include: {
+    user: true;
+    billingAddress: true;
+    shippingAddress: true;
+    orderItems: {
+      include: {
+        product: true;
+      };
+    };
+  };
+}>;
+
 /**
  * Generate a unique order number
  */
@@ -134,7 +147,13 @@ export async function getAllOrders(filters: {
 } = {}, pagination: {
   page?: number;
   limit?: number;
-} = {}) {
+} = {}): Promise<{
+  orders: OrderListItem[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}> {
   const page = pagination.page || 1;
   const limit = pagination.limit || 20;
   const skip = (page - 1) * limit;

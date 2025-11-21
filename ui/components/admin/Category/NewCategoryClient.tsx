@@ -43,8 +43,8 @@ export default function NewCategoryClient({ categories }: NewCategoryClientProps
       const result = await createCategoryAction({
         name: formData.name,
         url: formData.url,
-        description: formData.description || null,
-        parentId: formData.parentId ? parseInt(formData.parentId) : null,
+        description: formData.description || undefined,
+        parentId: formData.parentId ? parseInt(formData.parentId) : undefined,
         visible: formData.visible,
       });
 

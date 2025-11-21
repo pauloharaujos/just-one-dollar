@@ -227,7 +227,15 @@ export async function getAllCategories() {
   return prisma.category.findMany({
     include: {
       parent: true,
-      children: true,
+      children: {
+        include: {
+          _count: {
+            select: {
+              productCategories: true,
+            },
+          },
+        },
+      },
       _count: {
         select: {
           productCategories: true,

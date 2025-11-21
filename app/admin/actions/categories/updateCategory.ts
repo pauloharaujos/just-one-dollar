@@ -4,6 +4,7 @@ import { getSession } from '@/services/admin/auth/jwtService';
 import { updateCategory } from '@/services/admin/categoryService';
 import { revalidatePath } from 'next/cache';
 import type { CategoryFormData } from '@/services/admin/categoryService';
+import type { Category } from '@/repository/categoryRepository';
 
 /**
  * Server action to update a category
@@ -11,7 +12,11 @@ import type { CategoryFormData } from '@/services/admin/categoryService';
 export async function updateCategoryAction(
   id: number,
   data: Partial<CategoryFormData>
-): Promise<{ success: boolean; category?: any; error?: string }> {
+): Promise<{ 
+  success: boolean;
+  category?: Category;
+  error?: string;
+}> {
   try {
     const session = await getSession();
     
@@ -25,11 +30,11 @@ export async function updateCategoryAction(
     revalidatePath(`/admin/categories/${id}/edit`);
 
     return { success: true, category };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error updating category:', error);
     return {
       success: false,
-      error: error.message || 'An error occurred while updating category',
+      error: 'An error occurred while updating category',
     };
   }
 }

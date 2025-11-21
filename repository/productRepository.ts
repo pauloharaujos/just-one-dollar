@@ -1,4 +1,5 @@
 import prisma from '@/prisma/prismaClient';
+import type { Prisma } from '@/prisma/generated';
 
 export async function getProductByUrlKey(productUrlKey: string) {
   return prisma.product.findUnique({
@@ -38,8 +39,18 @@ export interface PaginationParams {
   limit?: number;
 }
 
+export type ProductListItem = Prisma.ProductGetPayload<{
+  include: {
+    productCategories: {
+      include: {
+        category: true;
+      };
+    };
+  };
+}>;
+
 export interface ListProductsResult {
-  products: any[];
+  products: ProductListItem[];
   total: number;
   page: number;
   limit: number;
@@ -49,7 +60,7 @@ export interface ListProductsResult {
 export async function getAllProducts(
   filters: ProductFilters = {},
   pagination: PaginationParams = {}
-) {
+): Promise<ListProductsResult> {
   const page = pagination.page || 1;
   const limit = pagination.limit || 20;
   const skip = (page - 1) * limit;

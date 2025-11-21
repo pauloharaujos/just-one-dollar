@@ -3,6 +3,7 @@
 import { getSession } from '@/services/admin/auth/jwtService';
 import { listOrders } from '@/services/admin/orderService';
 import type { OrderStatus } from '@/prisma/generated';
+import type { OrderListItem } from '@/repository/orderRepository';
 
 /**
  * Server action to list orders with filters and pagination
@@ -17,7 +18,17 @@ export async function listOrdersAction(
     page?: number;
     limit?: number;
   } = {}
-): Promise<{ success: boolean; orders?: any; error?: string }> {
+): Promise<{ 
+  success: boolean;
+  data?: {
+    orders: OrderListItem[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+  error?: string;
+}> {
   try {
     const session = await getSession();
     
@@ -27,12 +38,12 @@ export async function listOrdersAction(
 
     const result = await listOrders(filters, pagination);
 
-    return { success: true, orders: result };
-  } catch (error: any) {
+    return { success: true, data: result };
+  } catch (error) {
     console.error('Error listing orders:', error);
     return {
       success: false,
-      error: error.message || 'An error occurred while fetching orders',
+      error: 'An error occurred while fetching orders',
     };
   }
 }
