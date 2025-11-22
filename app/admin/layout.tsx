@@ -2,6 +2,8 @@ import { getSession } from '@/services/admin/auth/jwtService';
 import AdminSidebar from '@/ui/components/admin/Layout/Sidebar';
 import AdminHeader from '@/ui/components/admin/Layout/Header';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminLayout({
   children,
 }: {
