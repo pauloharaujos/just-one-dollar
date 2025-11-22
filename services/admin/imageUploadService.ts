@@ -1,12 +1,49 @@
 import { v2 as cloudinary } from 'cloudinary';
 
-// Configure Cloudinary
-if (process.env.CLOUDINARY_URL) {
-  cloudinary.config({
-    cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-  });
+let isConfigured = false;
+
+function configureCloudinary() {
+  if (isConfigured) {
+    return;
+  }
+
+  if (process.env.CLOUDINARY_URL) {
+    cloudinary.config();
+    isConfigured = true;
+    return;
+  }
+
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const apiKey = process.env.CLOUDINARY_API_KEY;
+  const apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+  if (cloudName && apiKey && apiSecret) {
+    cloudinary.config({
+      cloud_name: cloudName,
+      api_key: apiKey,
+      api_secret: apiSecret,
+    });
+    isConfigured = true;
+  } else {
+    console.error('Cloudinary configuration missing. Required variables:', {
+      hasCloudName: !!cloudName,
+      hasApiKey: !!apiKey,
+      hasApiSecret: !!apiSecret,
+      hasCloudinaryUrl: !!process.env.CLOUDINARY_URL,
+    });
+  }
+}
+
+// Validate Cloudinary configuration
+function ensureCloudinaryConfigured() {
+  configureCloudinary();
+  
+  const config = cloudinary.config();
+  if (!config.cloud_name || !config.api_key || !config.api_secret) {
+    throw new Error(
+      'Cloudinary not configured. Please set CLOUDINARY_URL or CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, and NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME environment variables.'
+    );
+  }
 }
 
 /**
@@ -17,7 +54,8 @@ export async function uploadProductImage(
   file: File,
   sku: string
 ): Promise<{ url: string; publicId: string }> {
-  const publicId = `images/${sku}`;
+  ensureCloudinaryConfigured();
+  const publicId = sku;
 
   try {
     const arrayBuffer = await file.arrayBuffer();
@@ -40,9 +78,12 @@ export async function uploadProductImage(
       ).end(buffer);
     });
 
+    const returnedPublicId = result.public_id;
+    const skuOnly = returnedPublicId.replace(/^images\//, '');
+
     return {
       url: result.secure_url,
-      publicId: result.public_id,
+      publicId: skuOnly,
     };
   } catch (error) {
     console.error('Error uploading to Cloudinary:', error);
@@ -54,6 +95,7 @@ export async function uploadProductImage(
  * Delete product image from Cloudinary
  */
 export async function deleteProductImage(sku: string): Promise<void> {
+  ensureCloudinaryConfigured();
   const publicId = `images/${sku}`;
 
   try {
