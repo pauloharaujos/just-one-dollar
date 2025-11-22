@@ -32,6 +32,5 @@ export async function getCustomerFromSession(): Promise<User | null> {
   if (!userEmail) {
     return null;
   }
-
   return await getCustomerByEmail(userEmail);
 }

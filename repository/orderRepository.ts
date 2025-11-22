@@ -16,6 +16,19 @@ export type OrderWithDetails = Prisma.OrderGetPayload<{
   };
 }>;
 
+export type OrderListItem = Prisma.OrderGetPayload<{
+  include: {
+    user: true;
+    billingAddress: true;
+    shippingAddress: true;
+    orderItems: {
+      include: {
+        product: true;
+      };
+    };
+  };
+}>;
+
 /**
  * Generate a unique order number
  */
@@ -122,4 +135,111 @@ export async function getOrdersCountByUserId(userId: string): Promise<number> {
   return await prisma.order.count({
     where: { userId }
   });
+}
+
+/**
+ * Get all orders with filters and pagination
+ */
+export async function getAllOrders(filters: {
+  status?: OrderStatus;
+  search?: string;
+  userId?: string;
+} = {}, pagination: {
+  page?: number;
+  limit?: number;
+} = {}): Promise<{
+  orders: OrderListItem[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}> {
+  const page = pagination.page || 1;
+  const limit = pagination.limit || 20;
+  const skip = (page - 1) * limit;
+
+  const where: any = {};
+
+  if (filters.status) {
+    where.status = filters.status;
+  }
+
+  if (filters.userId) {
+    where.userId = filters.userId;
+  }
+
+  if (filters.search) {
+    where.OR = [
+      { orderNumber: { contains: filters.search, mode: 'insensitive' } },
+      { user: { name: { contains: filters.search, mode: 'insensitive' } } },
+      { user: { email: { contains: filters.search, mode: 'insensitive' } } },
+    ];
+  }
+
+  const [orders, total] = await Promise.all([
+    prisma.order.findMany({
+      where,
+      skip,
+      take: limit,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        user: true,
+        billingAddress: true,
+        shippingAddress: true,
+        orderItems: {
+          include: {
+            product: true,
+          },
+        },
+      },
+    }),
+    prisma.order.count({ where }),
+  ]);
+
+  return {
+    orders,
+    total,
+    page,
+    limit,
+    totalPages: Math.ceil(total / limit),
+  };
+}
+
+/**
+ * Update order status
+ */
+export async function updateOrderStatus(id: number, status: OrderStatus) {
+  return prisma.order.update({
+    where: { id },
+    data: { status, updatedAt: new Date() },
+  });
+}
+
+/**
+ * Get order count
+ */
+export async function getOrdersCount(filters: {
+  status?: OrderStatus;
+  search?: string;
+  userId?: string;
+} = {}) {
+  const where: any = {};
+
+  if (filters.status) {
+    where.status = filters.status;
+  }
+
+  if (filters.userId) {
+    where.userId = filters.userId;
+  }
+
+  if (filters.search) {
+    where.OR = [
+      { orderNumber: { contains: filters.search, mode: 'insensitive' } },
+      { user: { name: { contains: filters.search, mode: 'insensitive' } } },
+      { user: { email: { contains: filters.search, mode: 'insensitive' } } },
+    ];
+  }
+
+  return prisma.order.count({ where });
 }

@@ -219,3 +219,103 @@ export async function getCategoriesByProduct(productId: number): Promise<Categor
     orderBy: { name: 'asc' },
   });
 }
+
+/**
+ * Get all categories
+ */
+export async function getAllCategories() {
+  return prisma.category.findMany({
+    include: {
+      parent: true,
+      children: {
+        include: {
+          _count: {
+            select: {
+              productCategories: true,
+            },
+          },
+        },
+      },
+      _count: {
+        select: {
+          productCategories: true,
+        },
+      },
+    },
+    orderBy: [
+      { parentId: 'asc' },
+      { name: 'asc' },
+    ],
+  });
+}
+
+/**
+ * Get category tree (hierarchical structure)
+ */
+export async function getCategoryTree() {
+  const categories = await prisma.category.findMany({
+    orderBy: [
+      { parentId: 'asc' },
+      { name: 'asc' },
+    ],
+  });
+
+  const tree: any[] = [];
+  const map: Record<number, any> = {};
+
+  categories.forEach((cat: any) => {
+    map[cat.id] = { ...cat, children: [] };
+  });
+
+  categories.forEach((cat: any) => {
+    if (cat.parentId) {
+      if (map[cat.parentId]) {
+        map[cat.parentId].children.push(map[cat.id]);
+      }
+    } else {
+      tree.push(map[cat.id]);
+    }
+  });
+
+  return tree;
+}
+
+/**
+ * Create a new category
+ */
+export async function createCategory(data: {
+  name: string;
+  url: string;
+  description?: string;
+  parentId?: number;
+  visible: boolean;
+}) {
+  return prisma.category.create({
+    data,
+  });
+}
+
+/**
+ * Update a category
+ */
+export async function updateCategory(id: number, data: {
+  name?: string;
+  url?: string;
+  description?: string;
+  parentId?: number;
+  visible?: boolean;
+}) {
+  return prisma.category.update({
+    where: { id },
+    data,
+  });
+}
+
+/**
+ * Delete a category
+ */
+export async function deleteCategory(id: number) {
+  return prisma.category.delete({
+    where: { id },
+  });
+}
