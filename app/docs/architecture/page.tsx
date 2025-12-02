@@ -153,9 +153,9 @@ model Account, Session, VerificationToken, Authenticator`}
                 <div className="border border-gray-200 rounded-lg p-4">
                   <h4 className="font-semibold text-gray-900 mb-2">Product Pages</h4>
                   <ul className="text-sm text-gray-600 space-y-1">
-                    <li>• <strong>Route Groups:</strong> <code className="bg-gray-100 px-2 py-1 rounded">(catalog)</code> and <code className="bg-gray-100 px-2 py-1 rounded">(product)</code> don't affect URL structure</li>
+                    <li>• <strong>Route Groups:</strong> <code className="bg-gray-100 px-2 py-1 rounded">(catalog)</code> and <code className="bg-gray-100 px-2 py-1 rounded">(product)</code> don&apos;t affect URL structure</li>
                     <li>• <strong>Dynamic Segments:</strong> <code className="bg-gray-100 px-2 py-1 rounded">[productUrlKey]</code> creates parameter for product lookup</li>
-                    <li>• <strong>URL Pattern:</strong> <code className="bg-gray-100 px-2 py-1 rounded">/{productUrlKey}</code> (e.g., <code className="bg-gray-100 px-2 py-1 rounded">/t-shirt1</code>)</li>
+                    <li>• <strong>URL Pattern:</strong> <code className="bg-gray-100 px-2 py-1 rounded">{'/{productUrlKey}'}</code> (e.g., <code className="bg-gray-100 px-2 py-1 rounded">/t-shirt1</code>)</li>
                     <li>• <strong>Server Components:</strong> Data fetching happens on the server</li>
                   </ul>
                 </div>
@@ -178,7 +178,7 @@ model Account, Session, VerificationToken, Authenticator`}
                   <h4 className="font-semibold text-gray-900 mb-2">Repository Pattern</h4>
                   <p className="text-sm text-gray-600 mb-2">All database access is centralized in the <code className="bg-gray-100 px-2 py-1 rounded">repository/</code> folder:</p>
                   <div className="bg-gray-50 rounded p-3">
-                    <code className="text-sm text-gray-700">// productRepository.ts</code><br />
+                    <code className="text-sm text-gray-700">{'// productRepository.ts'}</code><br />
                     <code className="text-sm text-gray-700">export async function getProductByUrlKey(productUrlKey: string)</code><br />
                     <code className="text-sm text-gray-700">export async function getRecommendedProducts(limit: number = 4)</code>
                   </div>
@@ -208,11 +208,11 @@ model Account, Session, VerificationToken, Authenticator`}
               </div>
               <div className="border border-gray-200 rounded-lg p-4">
                 <h4 className="font-semibold text-gray-900 mb-2">2. File System</h4>
-                <p className="text-sm text-gray-600">Images organized by product ID in <code className="bg-gray-100 px-2 py-1 rounded">/public/product/images/{productId}/</code></p>
+                <p className="text-sm text-gray-600">Images organized by product ID in <code className="bg-gray-100 px-2 py-1 rounded">{'/public/product/images/{productId}/'}</code></p>
               </div>
               <div className="border border-gray-200 rounded-lg p-4">
                 <h4 className="font-semibold text-gray-900 mb-2">3. URL Construction</h4>
-                <p className="text-sm text-gray-600">Dynamic path building: <code className="bg-gray-100 px-2 py-1 rounded">/product/images/{productId}/{filename}</code></p>
+                <p className="text-sm text-gray-600">Dynamic path building: <code className="bg-gray-100 px-2 py-1 rounded">{'/product/images/{productId}/{filename}'}</code></p>
               </div>
               <div className="border border-gray-200 rounded-lg p-4">
                 <h4 className="font-semibold text-gray-900 mb-2">4. Relationship</h4>
@@ -232,7 +232,7 @@ model Account, Session, VerificationToken, Authenticator`}
                 <ol className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-start">
                     <span className="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-xs font-semibold mr-3 mt-0.5">1</span>
-                    <span>User visits <code className="bg-gray-200 px-2 py-1 rounded">/{productUrlKey}</code></span>
+                    <span>User visits <code className="bg-gray-200 px-2 py-1 rounded">{'/{productUrlKey}'}</code></span>
                   </li>
                   <li className="flex items-start">
                     <span className="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-xs font-semibold mr-3 mt-0.5">2</span>

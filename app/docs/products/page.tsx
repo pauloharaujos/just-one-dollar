@@ -119,15 +119,15 @@ model ProductImageLink {
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-2">Pattern</h4>
                     <div className="bg-gray-900 rounded-lg p-4">
-                      <code className="text-green-400">const imageUrl = `/product/images/${product.id}/${image.filename}`;</code>
+                      <code className="text-green-400">{'const imageUrl = `/product/images/${product.id}/${image.filename}`;'}</code>
                     </div>
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-2">Example</h4>
                     <div className="bg-gray-900 rounded-lg p-4">
-                      <code className="text-green-400">// Product ID: 1</code><br />
-                      <code className="text-green-400">// Image filename: "t-shirt-front.webp"</code><br />
-                      <code className="text-green-400">// Result: "/product/images/1/t-shirt-front.webp"</code>
+                      <code className="text-green-400">{'// Product ID: 1'}</code><br />
+                      <code className="text-green-400">{'// Image filename: "t-shirt-front.webp"'}</code><br />
+                      <code className="text-green-400">{'// Result: "/product/images/1/t-shirt-front.webp"'}</code>
                     </div>
                   </div>
                 </div>
@@ -271,7 +271,7 @@ model ProductImageLink {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="border border-gray-200 rounded-lg p-4">
                   <h4 className="font-semibold text-gray-900 mb-2">Store Only Filenames</h4>
-                  <p className="text-sm text-gray-600">Don't store full paths in database</p>
+                  <p className="text-sm text-gray-600">Don&apos;t store full paths in database</p>
                 </div>
                 <div className="border border-gray-200 rounded-lg p-4">
                   <h4 className="font-semibold text-gray-900 mb-2">Use Relationships</h4>
@@ -354,7 +354,7 @@ model ProductImageLink {
                   </li>
                   <li className="flex items-start">
                     <span className="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-semibold mr-3 mt-0.5">2</span>
-                    <span>Image Processing: Process each product's images</span>
+                    <span>Image Processing: Process each product&apos;s images</span>
                   </li>
                   <li className="flex items-start">
                     <span className="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-semibold mr-3 mt-0.5">3</span>

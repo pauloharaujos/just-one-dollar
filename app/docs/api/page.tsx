@@ -27,7 +27,7 @@ export default function APIReference() {
                     <div>
                       <h5 className="font-semibold text-gray-900 mb-2">Parameters:</h5>
                       <ul className="text-sm text-gray-600 space-y-1">
-                        <li>• <code className="bg-gray-100 px-2 py-1 rounded">productUrlKey</code> (string): The URL slug of the product (e.g., "t-shirt1")</li>
+                        <li>• <code className="bg-gray-100 px-2 py-1 rounded">productUrlKey</code> (string): The URL slug of the product (e.g., &quot;t-shirt1&quot;)</li>
                       </ul>
                     </div>
                     
@@ -179,16 +179,16 @@ export async function someFunction() {
                 <div className="border border-gray-200 rounded-lg p-4">
                   <h4 className="font-semibold text-gray-900 mb-2">Pattern:</h4>
                   <div className="bg-gray-900 rounded-lg p-4">
-                    <code className="text-green-400">const imageUrl = `/product/images/${product.id}/${image.filename}`;</code>
+                    <code className="text-green-400">{'const imageUrl = `/product/images/${product.id}/${image.filename}`;'}</code>
                   </div>
                 </div>
                 
                 <div className="border border-gray-200 rounded-lg p-4">
                   <h4 className="font-semibold text-gray-900 mb-2">Example:</h4>
                   <div className="bg-gray-900 rounded-lg p-4">
-                    <code className="text-green-400">// Product ID: 1</code><br />
-                    <code className="text-green-400">// Image filename: "t-shirt-front.webp"</code><br />
-                    <code className="text-green-400">// Result: "/product/images/1/t-shirt-front.webp"</code>
+                    <code className="text-green-400">{'// Product ID: 1'}</code><br />
+                    <code className="text-green-400">{'// Image filename: "t-shirt-front.webp"'}</code><br />
+                    <code className="text-green-400">{'// Result: "/product/images/1/t-shirt-front.webp"'}</code>
                   </div>
                 </div>
               </div>

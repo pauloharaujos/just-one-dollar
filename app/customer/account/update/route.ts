@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
   const { name, cpf, phone, age } = body;
 
   try {
-    const updated = await updateCustomerInfo(session.user.email, {
+    await updateCustomerInfo(session.user.email, {
       name,
       cpf,
       phone,

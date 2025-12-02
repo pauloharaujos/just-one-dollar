@@ -142,7 +142,7 @@ export default function DocsHome() {
       <div className="mt-12 p-6 bg-indigo-50 rounded-lg">
         <h3 className="text-lg font-semibold text-indigo-900 mb-2">Need Help?</h3>
         <p className="text-indigo-700 mb-4">
-          Can't find what you're looking for? Check out our development guide or reach out to the team.
+          Can&apos;t find what you&apos;re looking for? Check out our development guide or reach out to the team.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link 

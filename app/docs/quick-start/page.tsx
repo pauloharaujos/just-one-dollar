@@ -166,7 +166,7 @@ export default function QuickStart() {
         </section>
 
         <div className="mt-12 p-6 bg-green-50 rounded-lg">
-          <h3 className="text-lg font-semibold text-green-900 mb-2">🎉 You're Ready!</h3>
+          <h3 className="text-lg font-semibold text-green-900 mb-2">🎉 You&apos;re Ready!</h3>
           <p className="text-green-700 mb-4">
             You now have the Just One Dollar platform running locally. Start exploring the codebase and building new features!
           </p>
