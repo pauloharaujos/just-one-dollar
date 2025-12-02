@@ -2,6 +2,9 @@
 
 A modern ecommerce platform built with Next.js 15+, featuring dynamic product management, user authentication, and a clean, responsive design.
 
+## Watch the Video Explanation
+https://youtu.be/Mtu93MdXEaI
+
 ## 🚀 Tech Stack
 
 - **Framework**: Next.js 15+ (App Router)
